@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Organizadora de Tarefas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F8F8F8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #E60000;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            width: auto;
+            cursor: pointer;
+            font-size: 1rem;
+            z-index: 200;
+            box-shadow: 0 2px 8px #0002;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover {
+            background: #A30000;
+        }
+
+        .logo-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container img {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .task-container, .date-picker {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #0F4662;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #093246;
+        }
+
+        .task-list-container {
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            margin: 15px 0;
+            padding: 5px;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .time {
+            font-size: 0.93rem;
+            color: #0F4662;
+            font-weight: bold;
+        }
+
+        .task-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .delete-btn {
+            background-color: #FF4D4D;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 0;
+            font-size: 0.97rem;
+            cursor: pointer;
+            width: 110px;
+        }
+        .delete-btn:hover {
+            background-color: #E60000;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: #FFF;
+            border-radius: 25px;
+            margin: 25px 0 18px 0;
+            box-shadow: 0 2px 14px #68B0AB33, 0 1.5px 0 #68B0AB44 inset;
+            position: relative;
+            height: 40px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #68B0AB 0%, #0F4662 100%);
+            border-radius: 25px;
+            width: 0;
+            transition: width 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-weight: bold;
+            font-size: 1.13rem;
+        }
+        .progress-text {
+            position: absolute;
+            left: 0; top: 0; width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            font-size: 1.13rem;
+            color: #0F4662;
+            font-weight: bold;
+            pointer-events: none;
+            letter-spacing: 0.5px;
+        }
+        .progress-bar span {
+            color: #fff;
+            padding-right: 20px;
+            font-size: 1.11rem;
+        }
+
+        .congrats-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            text-align: center;
+            display: none;
+            z-index: 100;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão Sair fixo -->
+    <button id="logoutBtn" class="logout-btn">Sair</button>
+
+    <!-- Logo UNISAL -->
+    <div class="logo-container">
+        <img src="./unisal-removebg-preview.png" alt="UNISAL Logo">
+    </div>
+
+    <div class="container">
+        <!-- Barra de Progresso com texto dentro -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"><span id="progressPerc"></span></div>
+            <div class="progress-text">Progresso do Dia</div>
+        </div>
+
+        <!-- Seleção de data -->
+        <div class="date-picker">
+            <label for="selectedDate">Selecione um dia:</label>
+            <input type="date" id="selectedDate">
+        </div>
+
+        <!-- Adicionar tarefas -->
+        <div class="task-container">
+            <input type="text" id="taskInput" placeholder="Digite uma nova tarefa...">
+            <label for="timeInput">Insira o horário (ex: 13:30 ou 08:00):</label>
+            <input type="text" id="timeInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}">
+            <label for="deadlineInput">Defina o horário de conclusão (ex: 18:00):</label>
+            <input type="text" id="deadlineInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}">
+            <button id="addTaskButton">Adicionar Tarefa</button>
+        </div>
+
+        <!-- Lista de tarefas -->
+        <div class="task-list-container">
+            <ul id="taskList"></ul>
+        </div>
+    </div>
+
+    <!-- Mensagem de Parabéns -->
+    <div class="congrats-message" id="congratsMessage">Parabéns! Você completou todas as tarefas do dia! 🎉</div>
+
+    <!-- Canvas para fogos -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <script>
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        }
+
+        // Botão de logout
+        document.getElementById('logoutBtn').onclick = function() {
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        };
+
+        const token = localStorage.getItem('token');
+        const selectedDate = document.getElementById('selectedDate');
+        const taskInput = document.getElementById('taskInput');
+        const timeInput = document.getElementById('timeInput');
+        const deadlineInput = document.getElementById('deadlineInput');
+        const addTaskButton = document.getElementById('addTaskButton');
+        const taskList = document.getElementById('taskList');
+        const progressBar = document.getElementById('progressBar');
+        const progressPerc = document.getElementById('progressPerc');
+        const congratsMessage = document.getElementById('congratsMessage');
+        const fireworksCanvas = document.getElementById('fireworksCanvas');
+        const ctx = fireworksCanvas.getContext('2d');
+
+        function resizeCanvas() {
+            fireworksCanvas.width = window.innerWidth;
+            fireworksCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function fireworkEffect() {
+            let particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * fireworksCanvas.width,
+                    y: Math.random() * fireworksCanvas.height,
+                    color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+                    size: Math.random() * 3,
+                    alpha: 1
+                });
+            }
+            function renderParticles() {
+                ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fill();
+                    p.alpha -= 0.02;
+                });
+                particles = particles.filter(p => p.alpha > 0);
+                if (particles.length > 0) {
+                    requestAnimationFrame(renderParticles);
+                }
+            }
+            renderParticles();
+        }
+
+        function showCongrats() {
+            congratsMessage.style.display = "block";
+            fireworkEffect();
+            setTimeout(() => {
+                congratsMessage.style.display = "none";
+            }, 5000);
+        }
+
+        function updateProgress(tasks) {
+            const completedTasks = tasks.filter(task => task.completed).length;
+            const percentage = tasks.length > 0 ? Math.round((completedTasks / tasks.length) * 100) : 0;
+
+            progressBar.style.width = `${percentage}%`;
+            progressPerc.textContent = percentage > 0 ? `${percentage}%` : "";
+
+            if (percentage === 100 && tasks.length > 0) {
+                showCongrats();
+            }
+        }
+
+        async function fetchTasks(date) {
+            const resp = await fetch(`http://localhost:5000/tarefas?date=${date}`, {
+                headers: { 'Authorization': token }
+            });
+            return await resp.json();
+        }
+
+        async function saveTask(task, date) {
+            await fetch('http://localhost:5000/tarefas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+                body: JSON.stringify({
+                    text: task.text,
+                    time: task.time,
+                    deadline: task.deadline,
+                    date: date
+                })
+            });
+        }
+
+        async function removeTask(taskId) {
+            await fetch(`http://localhost:5000/tarefas/${taskId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': token }
+            });
+        }
+
+        async function toggleComplete(taskId, completed) {
+            await fetch(`http://localhost:5000/tarefas/${taskId}/concluir`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+                body: JSON.stringify({ completed })
+            });
+        }
+
+        async function renderTasks(date) {
+            const tasks = await fetchTasks(date);
+            taskList.innerHTML = "";
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="task-details">
+                        <span>${task.text}</span>
+                        <span class="time">Horário: ${task.time}</span>
+                        <span class="time">Concluir até: ${task.deadline}</span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="delete-btn">Remover</button>
+                        <button class="check-btn">${task.completed ? 'Desfazer' : 'Concluir'}</button>
+                    </div>
+                `;
+
+                const checkButton = li.querySelector('.check-btn');
+                const deleteButton = li.querySelector('.delete-btn');
+
+                checkButton.addEventListener('click', async () => {
+                    await toggleComplete(task.id, !task.completed);
+                    renderTasks(date);
+                });
+
+                deleteButton.addEventListener('click', async () => {
+                    await removeTask(task.id);
+                    renderTasks(date);
+                });
+
+                if(task.completed){
+                    li.style.background = "#e3fbe5";
+                    li.style.opacity = "0.7";
+                    li.querySelectorAll(".task-details span")[0].style.textDecoration = "line-through";
+                }
+
+                taskList.appendChild(li);
+            });
+
+            updateProgress(tasks);
+        }
+
+        async function addTask() {
+            const taskText = taskInput.value.trim();
+            let taskTime = timeInput.value.trim();
+            let taskDeadline = deadlineInput.value.trim();
+            const date = selectedDate.value;
+
+            if (!date || !taskText || !taskTime || !taskDeadline) {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            // Validar formato HH:MM
+            if (!/^\d{2}:\d{2}$/.test(taskTime) || !/^\d{2}:\d{2}$/.test(taskDeadline)) {
+                alert("Digite os horários no formato correto, ex: 13:30");
+                return;
+            }
+
+            const task = { text: taskText, time: taskTime, deadline: taskDeadline, completed: false };
+            await saveTask(task, date);
+
+            taskInput.value = "";
+            timeInput.value = "";
+            deadlineInput.value = "";
+
+            renderTasks(date);
+        }
+
+        addTaskButton.addEventListener('click', addTask);
+
+        selectedDate.addEventListener('change', () => {
+            const date = selectedDate.value;
+            renderTasks(date);
+        });
+
+        // Renderizar tarefas ao carregar página se uma data já estiver selecionada
+        window.onload = () => {
+            if (selectedDate.value) {
+                renderTasks(selectedDate.value);
+            }
+        };
+    </script>
+</body>
+</html>

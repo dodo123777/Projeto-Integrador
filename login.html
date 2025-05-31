@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - InfoHelp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(120deg, #0F4662 0%, #68B0AB 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container, .register-container, .reset-container {
+            background: rgba(255,255,255,0.98);
+            padding: 38px 28px 28px 28px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px #0f466238;
+            width: 335px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            z-index: 10;
+        }
+        .logo {
+            width: 120px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .app-title {
+            color: #0F4662;
+            font-weight: 700;
+            font-size: 1.55rem;
+            margin: 0 0 4px 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            color: #68B0AB;
+            font-size: 1.08rem;
+            margin-bottom: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+        input, button {
+            width: 100%;
+            padding: 13px 10px;
+            border-radius: 9px;
+            border: 1px solid #C1C1C1;
+            font-size: 1rem;
+            margin-top: 6px;
+            font-family: inherit;
+        }
+        button {
+            background: #0F4662;
+            color: white;
+            font-weight: bold;
+            border: none;
+            margin-top: 10px;
+            transition: background 0.2s;
+            cursor: pointer;
+            font-size: 1.08rem;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 12px #68b0ab33;
+        }
+        button:hover {
+            background: #093246;
+        }
+        .link-btn {
+            background: none;
+            color: #0F4662;
+            border: none;
+            margin-top: 4px;
+            font-weight: 600;
+            font-size: 1.01rem;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            box-shadow: none;
+        }
+        .erro {
+            color: #e60000;
+            margin: 0;
+            font-size: 1rem;
+            text-align: center;
+            min-height: 24px;
+        }
+        .close-x {
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #0F4662;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 20;
+        }
+        @media (max-width: 400px) {
+            .login-container, .register-container, .reset-container { width: 98vw; padding: 24px 5vw; }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN FORM -->
+    <div class="login-container" id="loginForm">
+        <img class="logo" src="unisal-removebg-preview.png" alt="Logo UNISAL">
+        <div class="app-title">InfoHelp</div>
+        <div class="subtitle">Agenda Organizadora de Tarefas</div>
+        <input type="email" id="loginEmail" placeholder="E-mail" required autocomplete="username">
+        <input type="password" id="loginSenha" placeholder="Senha" required autocomplete="current-password">
+        <button onclick="fazerLogin()">Entrar</button>
+        <button type="button" class="link-btn" onclick="abrirRegistro()">Registrar-se</button>
+        <button type="button" class="link-btn" onclick="abrirReset()">Esqueci minha senha</button>
+        <p class="erro" id="erroLogin"></p>
+    </div>
+
+    <!-- REGISTRO FORM (inicia oculto) -->
+    <div class="register-container" id="registerForm" style="display:none;">
+        <button class="close-x" onclick="fecharRegistro()">&times;</button>
+        <img class="logo" src="unisal-removebg-preview.png" alt="Logo UNISAL">
+        <div class="app-title">Registrar novo usuário</div>
+        <input type="text" id="regNome" placeholder="Nome completo" required>
+        <input type="email" id="regEmail" placeholder="E-mail" required>
+        <input type="password" id="regSenha" placeholder="Senha" required>
+        <button onclick="fazerRegistro()">Registrar</button>
+        <p class="erro" id="erroRegistro"></p>
+    </div>
+
+    <!-- RESET FORM (inicia oculto) -->
+    <div class="reset-container" id="resetForm" style="display:none;">
+        <button class="close-x" onclick="fecharReset()">&times;</button>
+        <img class="logo" src="unisal-removebg-preview.png" alt="Logo UNISAL">
+        <div class="app-title">Redefinir senha</div>
+        <input type="email" id="resetEmail" placeholder="E-mail cadastrado" required>
+        <input type="password" id="resetSenha" placeholder="Nova senha" required>
+        <button onclick="fazerReset()">Redefinir senha</button>
+        <p class="erro" id="erroReset"></p>
+    </div>
+
+    <script>
+        // Mostrar e ocultar formulários
+        function abrirRegistro() {
+            document.getElementById('registerForm').style.display = 'flex';
+            document.getElementById('loginForm').style.display = 'none';
+        }
+        function fecharRegistro() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'flex';
+            document.getElementById('erroRegistro').innerText = "";
+        }
+        function abrirReset() {
+            document.getElementById('resetForm').style.display = 'flex';
+            document.getElementById('loginForm').style.display = 'none';
+        }
+        function fecharReset() {
+            document.getElementById('resetForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'flex';
+            document.getElementById('erroReset').innerText = "";
+        }
+
+        // LOGIN
+        function fazerLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const senha = document.getElementById('loginSenha').value;
+            fetch('http://localhost:5000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    window.location.href = "index.html";
+                } else {
+                    document.getElementById('erroLogin').innerText = data.erro || 'Erro no login';
+                }
+            })
+            .catch(() => {
+                document.getElementById('erroLogin').innerText = 'Erro ao conectar ao servidor!';
+            });
+        }
+
+        // REGISTRO
+        function fazerRegistro() {
+            const nome = document.getElementById('regNome').value;
+            const email = document.getElementById('regEmail').value;
+            const senha = document.getElementById('regSenha').value;
+            if (!nome || !email || !senha) {
+                document.getElementById('erroRegistro').innerText = "Preencha todos os campos!";
+                return;
+            }
+            fetch('http://localhost:5000/registrar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, email, senha })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.msg) {
+                    alert(data.msg + " Agora faça login.");
+                    fecharRegistro();
+                } else {
+                    document.getElementById('erroRegistro').innerText = data.erro || 'Erro ao registrar';
+                }
+            })
+            .catch(() => {
+                document.getElementById('erroRegistro').innerText = 'Erro ao conectar ao servidor!';
+            });
+        }
+
+        // REDEFINIR SENHA
+        function fazerReset() {
+            const email = document.getElementById('resetEmail').value;
+            const nova_senha = document.getElementById('resetSenha').value;
+            if (!email || !nova_senha) {
+                document.getElementById('erroReset').innerText = "Preencha todos os campos!";
+                return;
+            }
+            fetch('http://localhost:5000/esqueci_senha', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, nova_senha })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.msg) {
+                    alert(data.msg + " Agora faça login.");
+                    fecharReset();
+                } else {
+                    document.getElementById('erroReset').innerText = data.erro || 'Erro ao redefinir';
+                }
+            })
+            .catch(() => {
+                document.getElementById('erroReset').innerText = 'Erro ao conectar ao servidor!';
+            });
+        }
+
+        // Enter para login
+        document.addEventListener('keydown', function(e) {
+            if(e.key === "Enter" && document.getElementById('loginForm').style.display !== "none") {
+                fazerLogin();
+            }
+        });
+    </script>
+</body>
+</html>
