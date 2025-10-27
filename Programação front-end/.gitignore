@@ -25,6 +25,8 @@ dist/
 
 # JetBrains IDE
 .idea/
+# Add this line to your .gitignore file (create it if it doesn't exist)
+.venv/
 
 # Unit test reports
 TEST*.xml
