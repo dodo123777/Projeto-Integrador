@@ -1,5 +1,5 @@
-Flask
-flask-cors
-psycopg2-binary
-bcrypt
-PyJWT
+Flask==3.0.3
+Flask-Cors==4.0.1
+psycopg2-binary==2.9.9
+bcrypt==4.1.3
+PyJWT==2.8.0
