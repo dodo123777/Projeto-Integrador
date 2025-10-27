@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Organizadora de Tarefas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Botão Sair fixo -->
+    <button id="logoutBtn" class="logout-btn">Sair</button>
+
+    <!-- Logo UNISAL -->
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images/unisal-removebg-preview.png') }}" alt="UNISAL Logo">
+    </div>
+
+    <div class="container">
+        <!-- Barra de Progresso com texto dentro -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"><span id="progressPerc"></span></div>
+            <div class="progress-text">Progresso do Dia</div>
+        </div>
+
+        <!-- Seleção de data -->
+        <div class="date-picker">
+            <label for="selectedDate">Selecione um dia:</label>
+            <input type="date" id="selectedDate">
+        </div>
+
+        <!-- Adicionar tarefas -->
+        <div class="task-container">
+            <input type="text" id="taskInput" placeholder="Digite uma nova tarefa...">
+            <label for="timeInput">Insira o horário (ex: 13:30 ou 08:00):</label>
+            <input type="text" id="timeInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}">
+            <label for="deadlineInput">Defina o horário de conclusão (ex: 18:00):</label>
+            <input type="text" id="deadlineInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}">
+            <button id="addTaskButton">Adicionar Tarefa</button>
+        </div>
+
+        <!-- Lista de tarefas -->
+        <div class="task-list-container">
+            <ul id="taskList"></ul>
+        </div>
+    </div>
+
+    <!-- Mensagem de Parabéns -->
+    <div class="congrats-message" id="congratsMessage">Parabéns! Você completou todas as tarefas do dia! 🎉</div>
+
+    <!-- Canvas para fogos -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/fireworks.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+</body>
+</html>
