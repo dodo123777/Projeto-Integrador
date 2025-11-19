@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify
 from flask_cors import CORS
 from config import Config
 from controllers.user_controller import user_bp
@@ -8,18 +8,14 @@ app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
 
-# Registrar blueprints
+# Registrar blueprints (APIs)
 app.register_blueprint(user_bp)
 app.register_blueprint(task_bp)
 
-# Rotas para servir as páginas
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
+# Rota raiz só pra health check / teste
+@app.route("/")
+def health():
+    return jsonify({"status": "ok"}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
