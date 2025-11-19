@@ -5,7 +5,7 @@ from controllers.user_controller import user_bp
 from controllers.task_controller import task_bp
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "https://receba777.netlify.app"}})
 app.config.from_object(Config)
 
 # Registrar blueprints (APIs)
