@@ -19,7 +19,8 @@ class DatabaseManager:
                     user=Config.DB_USER,
                     password=Config.DB_PASSWORD,
                     host=Config.DB_HOST,
-                    port=Config.DB_PORT
+                    port=Config.DB_PORT,
+                    sslmode="require"  # ← ESSENCIAL pro Supabase
                 )
             except psycopg2.Error as e:
                 print(f"Erro ao conectar: {e}")
