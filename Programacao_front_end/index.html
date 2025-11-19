@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Organizadora de Tarefas</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- CSS estático -->
+    <link rel="stylesheet" href="./static/css/style.css">
 </head>
 <body>
     <!-- Botão Sair fixo -->
@@ -13,7 +14,7 @@
 
     <!-- Logo UNISAL -->
     <div class="logo-container">
-        <img src="{{ url_for('static', filename='images/unisal-removebg-preview.png') }}" alt="UNISAL Logo">
+        <img src="./static/images/unisal-removebg-preview.png" alt="UNISAL Logo">
     </div>
 
     <div class="container">
@@ -46,15 +47,17 @@
     </div>
 
     <!-- Mensagem de Parabéns -->
-    <div class="congrats-message" id="congratsMessage">Parabéns! Você completou todas as tarefas do dia! 🎉</div>
+    <div class="congrats-message" id="congratsMessage">
+        Parabéns! Você completou todas as tarefas do dia! 🎉
+    </div>
 
     <!-- Canvas para fogos -->
     <canvas id="fireworksCanvas"></canvas>
 
-    <!-- Scripts -->
-    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/fireworks.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+    <!-- Scripts estáticos -->
+    <script src="./static/js/auth.js"></script>
+    <script src="./static/js/fireworks.js"></script>
+    <script src="./static/js/progress.js"></script>
+    <script src="./static/js/tasks.js"></script>
 </body>
 </html>

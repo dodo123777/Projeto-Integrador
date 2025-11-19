@@ -1,8 +1,14 @@
+// URL da API (back-end no Render)
+const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:5000'
+    : 'https://projeto-integrador-uvxi.onrender.com';
+
 class LoginManager {
     constructor() {
-        this.baseURL = 'http://localhost:5000';
+        this.baseURL = API_URL;
         this.init();
     }
+
 
     init() {
         // Elementos dos formulários
@@ -44,7 +50,7 @@ class LoginManager {
 
     checkAlreadyLoggedIn() {
         if (localStorage.getItem('token')) {
-            window.location.href = '/';
+            window.location.href = 'index.html';
         }
     }
 
@@ -129,7 +135,7 @@ class LoginManager {
 
             if (data.token) {
                 localStorage.setItem('token', data.token);
-                window.location.href = "/";
+                window.location.href = "index.html";
             } else {
                 this.erroLogin.innerText = data.erro || 'Erro no login';
             }
