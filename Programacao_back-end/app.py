@@ -11,7 +11,6 @@ CORS(
     resources={r"/*": {"origins": "https://receba777.netlify.app"}},
     allow_headers=["Content-Type", "Authorization"],
     expose_headers=["Content-Type", "Authorization"],
-    supports_credentials=True
 )
 
 app.config.from_object(Config)
