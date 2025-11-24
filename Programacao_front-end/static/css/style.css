@@ -415,7 +415,8 @@ body.focus-mode .task-list-container {
     }
 
     .task-actions {
-        flex: 0;
+        flex: 1;
+        justify-content: flex-end;
         flex-wrap: nowrap;
         gap: 10px;
     }
