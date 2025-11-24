@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - InfoHelp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/login.css">
+</head>
+<body>
+    <!-- LOGIN FORM -->
+    <div class="login-container" id="loginForm">
+        <img class="logo" src="./static/images/unisal-removebg-preview.png" alt="Logo UNISAL">
+        <div class="app-title">InfoHelp</div>
+        <div class="subtitle">Agenda Organizadora de Tarefas</div>
+        <input type="email" id="loginEmail" placeholder="E-mail" required autocomplete="username">
+        <input type="password" id="loginSenha" placeholder="Senha" required autocomplete="current-password">
+        <button id="loginBtn">Entrar</button>
+        <button type="button" class="link-btn" id="openRegisterBtn">Registrar-se</button>
+        <button type="button" class="link-btn" id="openResetBtn">Esqueci minha senha</button>
+        <p class="erro" id="erroLogin"></p>
+    </div>
+
+    <!-- REGISTRO FORM (inicia oculto) -->
+    <div class="register-container" id="registerForm" style="display:none;">
+        <button class="close-x" id="closeRegisterBtn">&times;</button>
+        <img class="logo" src="./static/images/unisal-removebg-preview.png" alt="Logo UNISAL">
+        <div class="app-title">Registrar novo usuário</div>
+        <input type="text" id="regNome" placeholder="Nome completo" required>
+        <input type="email" id="regEmail" placeholder="E-mail" required>
+        <input type="password" id="regSenha" placeholder="Senha" required>
+        <button id="registerBtn">Registrar</button>
+        <p class="erro" id="erroRegistro"></p>
+    </div>
+
+    <!-- RESET FORM (inicia oculto) -->
+    <div class="reset-container" id="resetForm" style="display:none;">
+        <button class="close-x" id="closeResetBtn">&times;</button>
+        <img class="logo" src="./static/images/unisal-removebg-preview.png" alt="Logo UNISAL">
+        <div class="app-title">Redefinir senha</div>
+        <input type="email" id="resetEmail" placeholder="E-mail cadastrado" required>
+        <input type="password" id="resetSenha" placeholder="Nova senha" required>
+        <button id="resetBtn">Redefinir senha</button>
+        <p class="erro" id="erroReset"></p>
+    </div>
+
+    <script src="./static/js/login.js"></script>
+</body>
+</html>

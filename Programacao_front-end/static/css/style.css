@@ -1,0 +1,220 @@
+body {
+    font-family: 'Cormorant Garamond', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F8F8F8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.logout-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #E60000;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    width: auto;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 200;
+    box-shadow: 0 2px 8px #0002;
+    transition: background 0.2s;
+}
+.logout-btn:hover {
+    background: #A30000;
+}
+
+.logo-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container img {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.container {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.task-container, .date-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+input, button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #0F4662;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #093246;
+}
+
+.task-list-container {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    margin: 15px 0;
+    padding: 5px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.time {
+    font-size: 0.93rem;
+    color: #0F4662;
+    font-weight: bold;
+}
+
+.task-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.delete-btn {
+    background-color: #FF4D4D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 0;
+    font-size: 0.97rem;
+    cursor: pointer;
+    width: 110px;
+}
+.delete-btn:hover {
+    background-color: #E60000;
+}
+
+.check-btn {
+    background-color: #0F4662;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 0;
+    font-size: 0.97rem;
+    cursor: pointer;
+    width: 110px;
+}
+.check-btn:hover {
+    background-color: #093246;
+}
+
+.progress-container {
+    width: 100%;
+    background: #FFF;
+    border-radius: 25px;
+    margin: 25px 0 18px 0;
+    box-shadow: 0 2px 14px #68B0AB33, 0 1.5px 0 #68B0AB44 inset;
+    position: relative;
+    height: 40px;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #68B0AB 0%, #0F4662 100%);
+    border-radius: 25px;
+    width: 0;
+    transition: width 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-weight: bold;
+    font-size: 1.13rem;
+}
+.progress-text {
+    position: absolute;
+    left: 0; top: 0; width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    font-size: 1.13rem;
+    color: #0F4662;
+    font-weight: bold;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+}
+.progress-bar span {
+    color: #fff;
+    padding-right: 20px;
+    font-size: 1.11rem;
+}
+
+.congrats-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    text-align: center;
+    display: none;
+    z-index: 100;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 99;
+}
