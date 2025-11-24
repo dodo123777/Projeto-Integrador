@@ -402,7 +402,7 @@ body.focus-mode .task-list-container {
     }
 }
 
-@media (min-width: 700px) {
+@media (min-width: 640px) {
     li {
         flex-direction: row;
         align-items: center;
@@ -415,7 +415,7 @@ body.focus-mode .task-list-container {
     }
 
     .task-actions {
-        width: 300px;
+        width: 350px;
         flex-wrap: nowrap;
         gap: 10px;
     }
