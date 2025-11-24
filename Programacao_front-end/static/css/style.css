@@ -203,12 +203,12 @@ ul {
 li {
     background-color: #fff;
     margin-bottom: 10px;
-    padding: 14px;
+    padding: 12px 14px;
     border: 1px solid #e6edf5;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     box-shadow: 0 6px 16px #0f466210;
     transition: background-color 0.2s ease, transform 0.12s ease, border-color 0.2s ease;
 }
@@ -399,6 +399,25 @@ body.focus-mode .task-list-container {
 
     .task-actions {
         justify-content: flex-end;
+    }
+}
+
+@media (min-width: 640px) {
+    li {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .task-details {
+        flex: 1;
+        gap: 4px;
+    }
+
+    .task-actions {
+        flex: 0;
+        flex-wrap: nowrap;
+        gap: 10px;
     }
 }
 
