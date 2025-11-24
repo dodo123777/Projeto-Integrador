@@ -208,7 +208,7 @@ li {
     border-radius: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     box-shadow: 0 6px 16px #0f466210;
     transition: background-color 0.2s ease, transform 0.12s ease, border-color 0.2s ease;
 }
@@ -415,7 +415,7 @@ body.focus-mode .task-list-container {
     }
 
     .task-actions {
-        width: 350px;
+        flex: 0;
         flex-wrap: nowrap;
         gap: 10px;
     }
