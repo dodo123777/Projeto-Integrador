@@ -189,7 +189,9 @@ input::placeholder {
     border-radius: 14px;
     background-color: #fdfefe;
     margin-top: 12px;
-    padding: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+    scrollbar-gutter: stable;
 }
 
 ul {
