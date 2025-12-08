@@ -15,8 +15,10 @@ class UserModel:
             self.db.commit()
             return True, None
         except psycopg2.errors.UniqueViolation:
+            self.db.rollback()
             return False, 'E-mail já cadastrado!'
         except Exception as e:
+            self.db.rollback()
             return False, str(e)
 
     def get_user_by_email(self, email):

@@ -1,7 +1,8 @@
 // URL da API (back-end no Render)
-const API_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:5000'
-    : 'https://projeto-integrador-uvxi.onrender.com';
+const API_URL =
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5000'
+        : 'https://projeto-integrador-uvxi.onrender.com';
 
 class LoginManager {
     constructor() {
@@ -49,7 +50,8 @@ class LoginManager {
     }
 
     checkAlreadyLoggedIn() {
-        if (localStorage.getItem('token')) {
+        const token = localStorage.getItem('token');
+        if (token) {
             window.location.href = 'index.html';
         }
     }
@@ -134,7 +136,11 @@ class LoginManager {
             const data = await response.json();
 
             if (data.token) {
-                localStorage.setItem('token', data.token);
+                // já guardar com prefixo Bearer para facilitar uso nas outras requisições
+                const bearerToken = data.token.startsWith('Bearer ')
+                    ? data.token
+                    : `Bearer ${data.token}`;
+                localStorage.setItem('token', bearerToken);
                 window.location.href = "index.html";
             } else {
                 this.erroLogin.innerText = data.erro || 'Erro no login';
@@ -175,13 +181,14 @@ class LoginManager {
 
             const data = await response.json();
 
-            if (data.msg) {
+            if (response.ok && data.msg) {
+                // sucesso
                 alert(data.msg + " Agora faça login.");
                 this.fecharRegistro();
-                // Preencher email no login
                 document.getElementById('loginEmail').value = email;
             } else {
-                this.erroRegistro.innerText = data.erro || 'Erro ao registrar';
+                // erro vindo do back-end (ex.: "E-mail já cadastrado!")
+                this.erroRegistro.innerText = data.erro || data.msg || 'Erro ao registrar';
             }
         } catch (error) {
             console.error('Erro ao registrar:', error);
