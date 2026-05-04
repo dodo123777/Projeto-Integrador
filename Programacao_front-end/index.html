@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Organizadora de Tarefas</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- CSS estático -->
     <link rel="stylesheet" href="./static/css/style.css">
 </head>
 <body>
     <div class="top-actions">
         <button id="focusToggle" class="ghost-btn">Modo foco</button>
+        <a class="chat-entry-btn ghost-btn" href="chat.html"><i class="fa-solid fa-robot"></i> Chat IA</a>
         <button id="logoutBtn" class="logout-btn">Sair</button>
     </div>
 
@@ -32,10 +34,6 @@
                 <div class="progress-text">Progresso do Dia</div>
             </div>
             <div class="progress-caption" id="progressCaption">Comece com uma tarefa pequena para ganhar ritmo.</div>
-
-        <div class="quick-actions">
-            <a class="chat-entry-btn" href="chat.html">Abrir chat com a IA</a>
-        </div>
 
         <!-- Adicionar tarefas -->
         <div class="task-container">
