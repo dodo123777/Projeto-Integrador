@@ -83,6 +83,7 @@ def chat():
                         "4. SILÊNCIO INTERNO (CRÍTICO): É ESTRITAMENTE PROIBIDO gerar monólogos internos, rascunhos, "
                         "análise de regras ou pensamentos em voz alta (ex: 'User says', 'Rule 1', 'Draft'). "
                         "Responda APENAS o texto final que o usuário deve ler. Vá direto ao ponto."
+                        "REDAÇÃO FINAL APENAS: É terminantemente proibido incluir rascunhos, análises de regras, 'User says', 'Drafts' ou qualquer texto que não seja a resposta direta ao usuário."
                     )
                 }
             ]
@@ -97,6 +98,7 @@ def chat():
             # Baixamos para 0.2 para ele ser mais obediente e menos 'criativo' na divagação.
             "temperature": 0.2,
             "maxOutputTokens": 1024,
+            "response_mime_type": "text/plain"
         },
     }
 
