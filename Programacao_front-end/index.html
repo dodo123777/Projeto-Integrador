@@ -4,31 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Organizadora de Tarefas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- CSS estático -->
     <link rel="stylesheet" href="./static/css/style.css">
 </head>
 <body>
-    <!-- Botão Sair fixo -->
-    <button id="logoutBtn" class="logout-btn">Sair</button>
+    <div class="top-actions">
+        <button id="focusToggle" class="ghost-btn">Modo foco</button>
+        <button id="logoutBtn" class="logout-btn">Sair</button>
+    </div>
 
     <!-- Logo UNISAL -->
     <div class="logo-container">
         <img src="./static/images/unisal-removebg-preview.png" alt="UNISAL Logo">
     </div>
 
-    <div class="container">
-        <!-- Barra de Progresso com texto dentro -->
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"><span id="progressPerc"></span></div>
-            <div class="progress-text">Progresso do Dia</div>
-        </div>
+    <main class="layout">
+        <div class="column">
+            <div class="section-header">
+                <h1>Planeje seu dia sem sobrecarga</h1>
+                <p class="subtitle">Blocos curtos, pistas visuais e mensagens de incentivo para manter o foco.</p>
+            </div>
 
-        <!-- Seleção de data -->
-        <div class="date-picker">
-            <label for="selectedDate">Selecione um dia:</label>
-            <input type="date" id="selectedDate">
-        </div>
+            <!-- Barra de Progresso com texto dentro -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"><span id="progressPerc"></span></div>
+                <div class="progress-text">Progresso do Dia</div>
+            </div>
+            <div class="progress-caption" id="progressCaption">Comece com uma tarefa pequena para ganhar ritmo.</div>
 
         <div class="quick-actions">
             <a class="chat-entry-btn" href="chat.html">Abrir chat com a IA</a>
@@ -42,13 +45,43 @@
             <label for="deadlineInput">Defina o horário de conclusão (ex: 18:00):</label>
             <input type="text" id="deadlineInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}">
             <button id="addTaskButton">Adicionar Tarefa</button>
+            <!-- Seleção de data -->
+            <div class="card date-picker">
+                <label for="selectedDate">Selecione um dia</label>
+                <input type="date" id="selectedDate">
+            </div>
+
+            <!-- Adicionar tarefas -->
+            <div class="card task-container">
+                <h2 class="section-title">Adicionar tarefa</h2>
+                <p class="helper-text">Use frases curtas e objetivas. Ex.: "Ler 3 páginas" ou "Responder 2 emails".</p>
+                <input type="text" id="taskInput" placeholder="Digite uma nova tarefa em passos curtos">
+                <div class="inline-fields">
+                    <div class="field">
+                        <label for="timeInput">Horário de início</label>
+                        <input type="text" id="timeInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}" placeholder="08:00">
+                    </div>
+                    <div class="field">
+                        <label for="deadlineInput">Concluir até</label>
+                        <input type="text" id="deadlineInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}" placeholder="18:00">
+                    </div>
+                </div>
+                <button id="addTaskButton" class="primary-btn">Adicionar tarefa</button>
+                <div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
+            </div>
         </div>
 
         <!-- Lista de tarefas -->
-        <div class="task-list-container">
-            <ul id="taskList"></ul>
+        <div class="column">
+            <div class="card">
+                <h2 class="section-title">Tarefas do dia</h2>
+                <p class="helper-text">Conclua, adie ou remova sem perder de vista o que é prioridade.</p>
+                <div class="task-list-container">
+                    <ul id="taskList"></ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 
     <!-- Mensagem de Parabéns -->
     <div class="congrats-message" id="congratsMessage">

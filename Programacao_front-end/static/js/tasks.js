@@ -11,6 +11,8 @@ class TaskManager {
         this.deadlineInput = document.getElementById('deadlineInput');
         this.addTaskButton = document.getElementById('addTaskButton');
         this.taskList = document.getElementById('taskList');
+        this.statusMessage = document.getElementById('statusMessage');
+        this.focusToggle = document.getElementById('focusToggle');
 
         this.init();
     }
@@ -24,6 +26,16 @@ class TaskManager {
             const date = this.selectedDate.value;
             if (date) this.renderTasks(date);
         });
+
+        // Modo foco para reduzir distrações visuais
+        if (this.focusToggle) {
+            this.focusToggle.addEventListener('click', () => {
+                document.body.classList.toggle('focus-mode');
+                const focusEnabled = document.body.classList.contains('focus-mode');
+                this.focusToggle.textContent = focusEnabled ? 'Sair do modo foco' : 'Modo foco';
+                this.showStatus(focusEnabled ? 'Modo foco ativado. Apenas o essencial na tela.' : 'Modo padrão restaurado.');
+            });
+        }
 
         // Se já tiver uma data selecionada ao carregar, renderiza
         if (this.selectedDate.value) {
@@ -95,23 +107,26 @@ class TaskManager {
                 </div>
             `;
 
+            li.classList.add('fade-in');
+
             const checkButton = li.querySelector('.check-btn');
             const deleteButton = li.querySelector('.delete-btn');
 
             checkButton.addEventListener('click', async () => {
                 await this.toggleComplete(task.id, !task.completed);
+                this.showStatus(!task.completed ? 'Bom trabalho! Você concluiu uma tarefa.' : 'Tarefa reaberta. Reorganize o foco.');
                 this.renderTasks(date);
             });
 
             deleteButton.addEventListener('click', async () => {
                 await this.removeTask(task.id);
+                this.showStatus('Tarefa removida.', 'neutral');
                 this.renderTasks(date);
             });
 
             if (task.completed) {
-                li.style.background = "#e3fbe5";
-                li.style.opacity = "0.7";
-                li.querySelector(".task-details span").style.textDecoration = "line-through";
+                li.classList.add('task-done');
+                li.classList.add('pulse-success');
             }
 
             this.taskList.appendChild(li);
@@ -156,6 +171,25 @@ class TaskManager {
 
         // Recarregar lista
         this.renderTasks(date);
+        this.showStatus('Tarefa adicionada! Comece pelo primeiro passo.');
+    }
+
+    showStatus(message, tone = 'positive') {
+        if (!this.statusMessage) return;
+        const colors = {
+            positive: '#0f7a8c',
+            neutral: '#4a6072',
+            warning: '#b52e46'
+        };
+
+        this.statusMessage.style.color = colors[tone] || colors.positive;
+        this.statusMessage.textContent = message;
+        this.statusMessage.classList.remove('hide');
+
+        clearTimeout(this.statusTimeout);
+        this.statusTimeout = setTimeout(() => {
+            this.statusMessage.classList.add('hide');
+        }, 3200);
     }
 }
 
