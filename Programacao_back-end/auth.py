@@ -18,7 +18,11 @@ class JWTManager:
     def decode_token(token):
         try:
             return jwt.decode(token, Config.SECRET_KEY, algorithms=['HS256'])
-        except:
+        except jwt.ExpiredSignatureError:
+            print("[auth] Token expirado.")
+            return None
+        except jwt.InvalidTokenError as e:
+            print(f"[auth] Token inválido: {e}")
             return None
 
 def auth_required(f):
