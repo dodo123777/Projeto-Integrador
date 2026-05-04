@@ -87,8 +87,11 @@ body {
     border-radius: 18px;
     line-height: 1.5;
     font-size: 1.12rem;
-    white-space: pre-wrap;
     word-break: break-word;
+}
+
+.message.user {
+    white-space: pre-wrap;
 }
 
 .message.assistant {
@@ -98,6 +101,16 @@ body {
     color: #18364a;
     border-bottom-left-radius: 6px;
 }
+
+.message.assistant p { margin: 0 0 8px; }
+.message.assistant p:last-child { margin-bottom: 0; }
+.message.assistant ul,
+.message.assistant ol { margin: 4px 0 8px 20px; padding: 0; }
+.message.assistant li { margin-bottom: 4px; }
+.message.assistant strong { font-weight: 700; }
+.message.assistant h1,
+.message.assistant h2,
+.message.assistant h3 { margin: 10px 0 6px; font-size: 1.1rem; }
 
 .message.user {
     align-self: flex-end;

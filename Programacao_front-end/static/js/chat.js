@@ -46,7 +46,12 @@ class ChatManager {
     addMessage(role, text) {
         const messageElement = document.createElement('article');
         messageElement.className = `message ${role}`;
-        messageElement.textContent = text;
+
+        if (role === 'assistant') {
+            messageElement.innerHTML = marked.parse(text);
+        } else {
+            messageElement.textContent = text;
+        }
 
         this.chatMessages.appendChild(messageElement);
         this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
