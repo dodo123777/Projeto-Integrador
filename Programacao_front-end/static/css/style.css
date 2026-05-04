@@ -137,18 +137,23 @@ input:focus-visible {
 }
 
 .chat-entry-btn {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: auto;
+    padding: 12px 18px;
+    border-radius: 12px;
     box-sizing: border-box;
-    background: linear-gradient(90deg, #68B0AB 0%, #0F4662 100%);
-    color: #fff;
-    font-weight: bold;
+    background: #edf3ff;
+    color: #0f4662;
+    border: 1px solid #cfd9f1;
+    font-weight: 600;
+    font-size: 0.98rem;
     text-align: center;
     text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 8px 18px #68b0ab33;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 6px 18px #0f466214;
 }
 
 .chat-entry-btn:hover {
