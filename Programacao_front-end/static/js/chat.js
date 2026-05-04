@@ -90,6 +90,12 @@ class ChatManager {
 
             const data = await response.json().catch(() => ({}));
 
+            if (response.status === 401) {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+                return;
+            }
+
             if (!response.ok) {
                 throw new Error(data.erro || 'Erro ao conversar com a IA.');
             }
