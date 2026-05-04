@@ -127,17 +127,11 @@ def chat():
             # maxOutputTokens: limite de tokens na resposta. ~1024 ≈ ~750 palavras.
             "maxOutputTokens": 1024,
 
-            "thinkingConfig": {
-                # thinkingBudget: tokens reservados para raciocínio interno antes de responder.
-                # 0 = desativado | 512–1024 = leve/médio | 2048+ = profundo | -1 = automático
-                "thinkingBudget": 1024,
-
                 # includeThoughts: True expõe o raciocínio na resposta (útil para debug).
                 # Manter False em produção — o usuário só vê a resposta final.
                 "includeThoughts": False,
             },
-        },
-    }
+        }
 
     try:
         # A chave da API vai como query param (?key=...), não no header
