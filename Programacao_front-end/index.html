@@ -33,6 +33,18 @@
             </div>
             <div class="progress-caption" id="progressCaption">Comece com uma tarefa pequena para ganhar ritmo.</div>
 
+        <div class="quick-actions">
+            <a class="chat-entry-btn" href="chat.html">Abrir chat com a IA</a>
+        </div>
+
+        <!-- Adicionar tarefas -->
+        <div class="task-container">
+            <input type="text" id="taskInput" placeholder="Digite uma nova tarefa...">
+            <label for="timeInput">Insira o horário (ex: 13:30 ou 08:00):</label>
+            <input type="text" id="timeInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}">
+            <label for="deadlineInput">Defina o horário de conclusão (ex: 18:00):</label>
+            <input type="text" id="deadlineInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}">
+            <button id="addTaskButton">Adicionar Tarefa</button>
             <!-- Seleção de data -->
             <div class="card date-picker">
                 <label for="selectedDate">Selecione um dia</label>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat IA - InfoHelp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/chat.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="page-header">
+            <div>
+                <h1>Chat com a IA</h1>
+                <p>Faça perguntas rápidas sem salvar sessão no banco.</p>
+            </div>
+
+            <div class="page-actions">
+                <a href="index.html" class="back-btn">Voltar</a>
+                <button id="logoutBtn" class="logout-btn">Sair</button>
+            </div>
+        </header>
+
+        <main class="chat-container">
+            <section id="chatMessages" class="chat-messages" aria-live="polite"></section>
+
+            <form id="chatForm" class="chat-form">
+                <label class="sr-only" for="messageInput">Digite sua mensagem</label>
+                <textarea id="messageInput" rows="1" placeholder="Digite sua pergunta para a IA..."></textarea>
+                <button id="sendButton" type="submit">Enviar</button>
+            </form>
+
+            <p id="statusText" class="status-text"></p>
+        </main>
+    </div>
+
+    <script src="./static/js/auth.js"></script>
+    <script src="./static/js/chat.js"></script>
+</body>
+</html>
