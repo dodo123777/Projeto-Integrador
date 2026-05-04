@@ -126,10 +126,6 @@ def chat():
 
             # maxOutputTokens: limite de tokens na resposta. ~1024 ≈ ~750 palavras.
             "maxOutputTokens": 1024,
-
-                # includeThoughts: True expõe o raciocínio na resposta (útil para debug).
-                # Manter False em produção — o usuário só vê a resposta final.
-                "includeThoughts": False,
             },
         }
 
