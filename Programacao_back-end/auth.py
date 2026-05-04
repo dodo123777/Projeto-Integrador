@@ -28,15 +28,22 @@ class JWTManager:
 def auth_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization')
-        
+        raw = request.headers.get('Authorization', '')
+
+        # Log para diagnóstico — mostra os primeiros 60 chars do header recebido
+        print(f"[auth] Authorization header recebido: '{raw[:60]}'")
+
+        # Remove prefixo 'Bearer ' caso algum cliente o envie
+        token = raw[7:] if raw.lower().startswith('bearer ') else raw
+        token = token.strip()
+
         if not token:
             return jsonify({'erro': 'Token não fornecido'}), 401
 
         decoded = JWTManager.decode_token(token)
         if not decoded:
             return jsonify({'erro': 'Token inválido'}), 401
-            
+
         request.user_id = decoded['id']
         return f(*args, **kwargs)
     return decorated
