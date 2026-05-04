@@ -57,6 +57,30 @@ body {
     margin: 10px 0;
 }
 
+.quick-actions {
+    margin: 10px 0 16px;
+}
+
+.chat-entry-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: linear-gradient(90deg, #68B0AB 0%, #0F4662 100%);
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 18px #68b0ab33;
+}
+
+.chat-entry-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px #68b0ab44;
+}
+
 input, button {
     width: 100%;
     padding: 15px;
