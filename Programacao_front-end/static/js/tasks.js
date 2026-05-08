@@ -49,11 +49,15 @@ class TaskManager {
                 'Authorization': this.token
             }
         });
+        if (!resp.ok) {
+            console.error("Erro ao buscar tarefas:", await resp.text());
+            return [];
+        }
         return await resp.json();
     }
 
     async saveTask(task, date) {
-        await fetch(`${API_URL}/tarefas`, {
+        const response = await fetch(`${API_URL}/tarefas`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -66,6 +70,12 @@ class TaskManager {
                 date: date
             })
         });
+
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.erro || "Erro ao salvar tarefa!");
+        }
+        return await response.json();
     }
 
     async removeTask(taskId) {
@@ -162,16 +172,21 @@ class TaskManager {
             completed: false
         };
 
-        await this.saveTask(task, date);
+        try {
+            await this.saveTask(task, date);
 
-        // Limpar campos
-        this.taskInput.value = "";
-        this.timeInput.value = "";
-        this.deadlineInput.value = "";
+            // Limpar campos
+            this.taskInput.value = "";
+            this.timeInput.value = "";
+            this.deadlineInput.value = "";
 
-        // Recarregar lista
-        this.renderTasks(date);
-        this.showStatus('Tarefa adicionada! Comece pelo primeiro passo.');
+            // Recarregar lista
+            this.renderTasks(date);
+            this.showStatus('Tarefa adicionada! Comece pelo primeiro passo.');
+        } catch (error) {
+            console.error(error);
+            this.showStatus(error.message, 'warning');
+        }
     }
 
     showStatus(message, tone = 'positive') {

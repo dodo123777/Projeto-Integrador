@@ -6,12 +6,18 @@ class TaskModel:
 
     def add_task(self, user_id, texto, data_tarefa, horario, deadline):
         cur = self.db.get_cursor()
-        cur.execute(
-            "INSERT INTO tarefas (usuario_id, data, texto, horario, deadline, concluida) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id",
-            (user_id, data_tarefa, texto, horario, deadline, False)
-        )
-        self.db.commit()
-        return cur.fetchone()[0]
+        try:
+            cur.execute(
+                "INSERT INTO tarefas (usuario_id, data, texto, horario, deadline, concluida) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id",
+                (user_id, data_tarefa, texto, horario, deadline, False)
+            )
+            task_id = cur.fetchone()[0]
+            self.db.commit()
+            return task_id
+        except Exception as e:
+            print(f"[task_model.py] Erro ao adicionar tarefa: {e}")
+            self.db.rollback()
+            raise e
 
     def list_tasks(self, user_id, data_tarefa=None):
         cur = self.db.get_cursor()

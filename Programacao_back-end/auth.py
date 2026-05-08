@@ -50,8 +50,14 @@ def auth_required(f):
 
 # Função original do seu código
 def get_user_id_from_token(token):
+    if not token:
+        return None
+    # Remove prefixo 'Bearer ' se existir
+    if token.lower().startswith('bearer '):
+        token = token[7:].strip()
     try:
         decoded = jwt.decode(token, Config.SECRET_KEY, algorithms=['HS256'])
-        return decoded['id']
-    except Exception:
+        return decoded.get('id') or decoded.get('sub')
+    except Exception as e:
+        print(f"[get_user_id_from_token] Erro: {e}")
         return None

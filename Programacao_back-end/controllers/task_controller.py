@@ -19,8 +19,11 @@ def add_task():
     horario = data.get('time')
     deadline = data.get('deadline')
 
-    task_id = task_model.add_task(user_id, texto, data_tarefa, horario, deadline)
-    return jsonify({'id': task_id})
+    try:
+        task_id = task_model.add_task(user_id, texto, data_tarefa, horario, deadline)
+        return jsonify({'id': task_id}), 201
+    except Exception as e:
+        return jsonify({'erro': 'Erro ao salvar no banco de dados', 'detalhes': str(e)}), 500
 
 @task_bp.route('/tarefas', methods=['GET'])
 def list_tasks():
