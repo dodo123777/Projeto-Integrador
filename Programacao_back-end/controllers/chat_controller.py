@@ -98,7 +98,7 @@ def chat():
             # Baixamos para 0.2 para ele ser mais obediente e menos 'criativo' na divagação.
             "temperature": 0.2,
             "maxOutputTokens": 1024,
-            "response_mime_type": "text/plain"
+            "response_mime_type": "text/plain",
             "stopSequences": ["<|channel|>thought", "<|think|>"]
         },
     }

@@ -21,6 +21,10 @@ class TaskManager {
         // Botão de adicionar tarefa
         this.addTaskButton.addEventListener('click', () => this.addTask());
 
+        if (!this.selectedDate.value) {
+            this.selectedDate.value = this.getTodayDateInput();
+        }
+
         // Quando mudar a data, recarrega tarefas daquele dia
         this.selectedDate.addEventListener('change', () => {
             const date = this.selectedDate.value;
@@ -146,6 +150,10 @@ class TaskManager {
         if (typeof progressManager !== 'undefined') {
             progressManager.update(tasks);
         }
+
+        if (typeof dashboardManager !== 'undefined') {
+            dashboardManager.update(date);
+        }
     }
 
     async addTask() {
@@ -205,6 +213,14 @@ class TaskManager {
         this.statusTimeout = setTimeout(() => {
             this.statusMessage.classList.add('hide');
         }, 3200);
+    }
+
+    getTodayDateInput() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 }
 

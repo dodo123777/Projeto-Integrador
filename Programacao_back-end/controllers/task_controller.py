@@ -36,6 +36,17 @@ def list_tasks():
     tasks = task_model.list_tasks(user_id, data_tarefa)
     return jsonify(tasks)
 
+@task_bp.route('/tarefas/estatisticas', methods=['GET'])
+def task_stats():
+    token = request.headers.get('Authorization')
+    user_id = get_user_id_from_token(token)
+    if not user_id:
+        return jsonify({'erro': 'UsuÃ¡rio nÃ£o autenticado'}), 401
+
+    data_tarefa = request.args.get('date')
+    stats = task_model.get_dashboard_stats(user_id, data_tarefa)
+    return jsonify(stats)
+
 @task_bp.route('/tarefas/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
     token = request.headers.get('Authorization')
