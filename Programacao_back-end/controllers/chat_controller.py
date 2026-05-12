@@ -99,6 +99,7 @@ def chat():
             "temperature": 0.2,
             "maxOutputTokens": 1024,
             "response_mime_type": "text/plain"
+            "stopSequences": ["<|channel|>thought", "<|think|>"]
         },
     }
 
