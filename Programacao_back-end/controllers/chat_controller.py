@@ -15,19 +15,36 @@ GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model
 
 
 def extract_reply(response_data):
-    """Navega no JSON da Gemini e devolve o texto da resposta, ou None se não achar."""
-    candidates = response_data.get("candidates") or []
+        """Navega no JSON da Gemini e devolve o texto da resposta, limpando pensamentos do Gemma."""
+        candidates = response_data.get("candidates") or []
 
-    for candidate in candidates:
-        content = candidate.get("content") or {}
-        parts = content.get("parts") or []
-        # filtra só as parts que têm texto (ignora parts de thinking quando includeThoughts=True)
-        texts = [part.get("text", "").strip() for part in parts if part.get("text")]
+        for candidate in candidates:
+            content = candidate.get("content") or {}
+            parts = content.get("parts") or []
+        
+            full_text_parts = []
+            for part in parts:
+                text = part.get("text", "")
+            
+                # 1. Se a part vier explicitamente marcada como pensamento (em algumas versões da API)
+                if part.get("thought") == True:
+                    continue
+                
+                # 2. Se o pensamento vier misturado no texto (comum no Gemma 4)
+                # O Gemma usa <|channel|>thought ou <channel|> para delimitar o pensamento
+                if "<channel|>" in text:
+                    # Pegamos apenas o que vem DEPOIS do fechamento do canal de pensamento
+                    text = text.split("<channel|>")[-1]
+                elif "<|channel|>thought" in text:
+                    text = text.split("<|channel|>thought")[-1]
+                
+                if text.strip():
+                    full_text_parts.append(text.strip())
 
-        if texts:
-            return "\n".join(texts)
+            if full_text_parts:
+                return "\n".join(full_text_parts)
 
-    return None
+        return None
 
 
 def extract_error_message(response_data):
