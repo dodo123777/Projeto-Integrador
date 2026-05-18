@@ -9,13 +9,14 @@ class ChatManager {
         this.messageInput = document.getElementById('messageInput');
         this.sendButton = document.getElementById('sendButton');
         this.statusText = document.getElementById('statusText');
+        this.promptChips = document.querySelectorAll('.prompt-chip');
         this.isSending = false;
 
         this.init();
     }
 
     init() {
-        this.addMessage('assistant', 'Olá! Eu sou o chat da InfoHelp. Pode mandar sua pergunta.');
+        this.addMessage('assistant', 'Ola! Eu posso ajudar a transformar uma tarefa confusa em passos menores. Por onde voce quer comecar?');
 
         this.chatForm.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -29,6 +30,14 @@ class ChatManager {
             }
         });
 
+        this.promptChips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                this.messageInput.value = chip.dataset.prompt || '';
+                this.autoResize();
+                this.messageInput.focus();
+            });
+        });
+
         this.messageInput.addEventListener('input', () => this.autoResize());
         this.messageInput.focus();
         this.autoResize();
@@ -36,7 +45,7 @@ class ChatManager {
 
     autoResize() {
         this.messageInput.style.height = 'auto';
-        this.messageInput.style.height = `${Math.min(this.messageInput.scrollHeight, 140)}px`;
+        this.messageInput.style.height = `${Math.min(this.messageInput.scrollHeight, 150)}px`;
     }
 
     setStatus(text) {
@@ -47,12 +56,23 @@ class ChatManager {
         const messageElement = document.createElement('article');
         messageElement.className = `message ${role}`;
 
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.innerHTML = role === 'assistant'
+            ? '<i class="fa-solid fa-robot"></i>'
+            : '<i class="fa-solid fa-user"></i>';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'message-bubble';
+
         if (role === 'assistant') {
-            messageElement.innerHTML = marked.parse(text);
+            bubble.innerHTML = marked.parse(text);
         } else {
-            messageElement.textContent = text;
+            bubble.textContent = text;
         }
 
+        messageElement.appendChild(avatar);
+        messageElement.appendChild(bubble);
         this.chatMessages.appendChild(messageElement);
         this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
     }
@@ -61,7 +81,9 @@ class ChatManager {
         this.isSending = isSending;
         this.sendButton.disabled = isSending;
         this.messageInput.disabled = isSending;
-        this.sendButton.textContent = isSending ? 'Enviando...' : 'Enviar';
+        this.sendButton.innerHTML = isSending
+            ? '<i class="fa-solid fa-spinner fa-spin"></i><span>Enviando</span>'
+            : '<i class="fa-solid fa-paper-plane"></i><span>Enviar</span>';
     }
 
     async sendMessage() {
@@ -81,7 +103,7 @@ class ChatManager {
         this.messageInput.value = '';
         this.autoResize();
         this.toggleSendingState(true);
-        this.setStatus('Pensando...');
+        this.setStatus('A IA esta organizando a resposta...');
 
         try {
             const response = await fetch(`${API_URL}/chat`, {
@@ -105,12 +127,12 @@ class ChatManager {
                 throw new Error(data.erro || 'Erro ao conversar com a IA.');
             }
 
-            this.addMessage('assistant', data.reply || 'A IA não retornou nenhuma resposta.');
+            this.addMessage('assistant', data.reply || 'A IA nao retornou nenhuma resposta.');
             this.setStatus('');
         } catch (error) {
             console.error('Erro no chat:', error);
             this.addMessage('assistant', `Desculpe, ocorreu um problema: ${error.message}`);
-            this.setStatus('Não foi possível concluir a resposta agora.');
+            this.setStatus('Nao foi possivel concluir a resposta agora.');
         } finally {
             this.toggleSendingState(false);
             this.messageInput.focus();

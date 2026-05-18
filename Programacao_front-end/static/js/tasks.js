@@ -21,6 +21,10 @@ class TaskManager {
         // Botão de adicionar tarefa
         this.addTaskButton.addEventListener('click', () => this.addTask());
 
+        if (!this.selectedDate.value) {
+            this.selectedDate.value = this.getTodayDateInput();
+        }
+
         // Quando mudar a data, recarrega tarefas daquele dia
         this.selectedDate.addEventListener('change', () => {
             const date = this.selectedDate.value;
@@ -43,12 +47,21 @@ class TaskManager {
         }
     }
 
+    _handleUnauthorized() {
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+    }
+
     async fetchTasks(date) {
         const resp = await fetch(`${API_URL}/tarefas?date=${encodeURIComponent(date)}`, {
             headers: {
                 'Authorization': this.token
             }
         });
+        if (resp.status === 401) {
+            this._handleUnauthorized();
+            return [];
+        }
         if (!resp.ok) {
             console.error("Erro ao buscar tarefas:", await resp.text());
             return [];
@@ -71,6 +84,10 @@ class TaskManager {
             })
         });
 
+        if (response.status === 401) {
+            this._handleUnauthorized();
+            return;
+        }
         if (!response.ok) {
             const err = await response.json();
             throw new Error(err.erro || "Erro ao salvar tarefa!");
@@ -79,16 +96,17 @@ class TaskManager {
     }
 
     async removeTask(taskId) {
-        await fetch(`${API_URL}/tarefas/${taskId}`, {
+        const resp = await fetch(`${API_URL}/tarefas/${taskId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': this.token
             }
         });
+        if (resp.status === 401) this._handleUnauthorized();
     }
 
     async toggleComplete(taskId, completed) {
-        await fetch(`${API_URL}/tarefas/${taskId}/concluir`, {
+        const resp = await fetch(`${API_URL}/tarefas/${taskId}/concluir`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,6 +114,7 @@ class TaskManager {
             },
             body: JSON.stringify({ completed })
         });
+        if (resp.status === 401) this._handleUnauthorized();
     }
 
     async renderTasks(date) {
@@ -145,6 +164,10 @@ class TaskManager {
         // Atualiza barra de progresso, se existir
         if (typeof progressManager !== 'undefined') {
             progressManager.update(tasks);
+        }
+
+        if (typeof dashboardManager !== 'undefined') {
+            dashboardManager.update(date);
         }
     }
 
@@ -205,6 +228,14 @@ class TaskManager {
         this.statusTimeout = setTimeout(() => {
             this.statusMessage.classList.add('hide');
         }, 3200);
+    }
+
+    getTodayDateInput() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 }
 
