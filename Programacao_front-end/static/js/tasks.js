@@ -47,12 +47,21 @@ class TaskManager {
         }
     }
 
+    _handleUnauthorized() {
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+    }
+
     async fetchTasks(date) {
         const resp = await fetch(`${API_URL}/tarefas?date=${encodeURIComponent(date)}`, {
             headers: {
                 'Authorization': this.token
             }
         });
+        if (resp.status === 401) {
+            this._handleUnauthorized();
+            return [];
+        }
         if (!resp.ok) {
             console.error("Erro ao buscar tarefas:", await resp.text());
             return [];
@@ -75,6 +84,10 @@ class TaskManager {
             })
         });
 
+        if (response.status === 401) {
+            this._handleUnauthorized();
+            return;
+        }
         if (!response.ok) {
             const err = await response.json();
             throw new Error(err.erro || "Erro ao salvar tarefa!");
@@ -83,16 +96,17 @@ class TaskManager {
     }
 
     async removeTask(taskId) {
-        await fetch(`${API_URL}/tarefas/${taskId}`, {
+        const resp = await fetch(`${API_URL}/tarefas/${taskId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': this.token
             }
         });
+        if (resp.status === 401) this._handleUnauthorized();
     }
 
     async toggleComplete(taskId, completed) {
-        await fetch(`${API_URL}/tarefas/${taskId}/concluir`, {
+        const resp = await fetch(`${API_URL}/tarefas/${taskId}/concluir`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,6 +114,7 @@ class TaskManager {
             },
             body: JSON.stringify({ completed })
         });
+        if (resp.status === 401) this._handleUnauthorized();
     }
 
     async renderTasks(date) {

@@ -27,8 +27,15 @@ class DatabaseManager:
                 raise
 
     def get_cursor(self):
-        self._connect()
-        return self.conn.cursor()
+        try:
+            self._connect()
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT 1")
+            return cursor
+        except psycopg2.OperationalError:
+            self.conn = None
+            self._connect()
+            return self.conn.cursor()
 
     def commit(self):
         if self.conn:
