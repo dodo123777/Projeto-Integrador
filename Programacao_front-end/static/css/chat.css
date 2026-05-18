@@ -162,25 +162,6 @@ a {
     gap: 10px;
 }
 
-.status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    color: var(--primary);
-    background: #e8f8f6;
-    border: 1px solid #c4e8e2;
-    border-radius: 999px;
-    padding: 9px 12px;
-    font-size: 0.9rem;
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.status-pill i {
-    color: #1fbf75;
-    font-size: 0.58rem;
-}
-
 .logout-btn,
 #sendButton {
     border: 0;

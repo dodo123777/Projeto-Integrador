@@ -28,17 +28,17 @@
 
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"><span id="progressPerc"></span></div>
-                <div class="progress-text">Progresso do Dia</div>
             </div>
+            <div class="progress-text">Progresso do Dia</div>
             <div class="progress-caption" id="progressCaption">Comece com uma tarefa pequena para ganhar ritmo.</div>
 
             <section class="card dashboard-card" aria-labelledby="dashboardTitle">
                 <div class="dashboard-header">
                     <div>
                         <h2 class="section-title" id="dashboardTitle">Resumo do cliente</h2>
-                        <p class="helper-text" id="dashboardSubtitle">Acompanhe tarefas criadas, pendentes e concluidas.</p>
+                        <p class="helper-text" id="dashboardSubtitle">Acompanhe tarefas criadas, pendentes e concluídas.</p>
                     </div>
-                    <button id="refreshDashboard" class="icon-btn" title="Atualizar graficos" aria-label="Atualizar graficos">
+                    <button id="refreshDashboard" class="icon-btn" title="Atualizar gráficos" aria-label="Atualizar gráficos">
                         <i class="fa-solid fa-rotate-right"></i>
                     </button>
                 </div>
@@ -49,7 +49,7 @@
                         <strong id="metricTotal">0</strong>
                     </article>
                     <article class="metric-card">
-                        <span>Concluidas</span>
+                        <span>Concluídas</span>
                         <strong id="metricCompleted">0</strong>
                     </article>
                     <article class="metric-card">
@@ -65,22 +65,22 @@
                 <div class="charts-grid">
                     <article class="chart-panel chart-panel-compact">
                         <div class="chart-heading">
-                            <span>Concluidas x pendentes</span>
+                            <span>Concluídas x pendentes</span>
                             <small id="statusChartLabel">Hoje</small>
                         </div>
                         <canvas id="statusChart" height="220"></canvas>
                     </article>
                     <article class="chart-panel">
                         <div class="chart-heading">
-                            <span>Ultimos 7 dias</span>
+                            <span>Últimos 7 dias</span>
                             <small>Tarefas feitas por dia</small>
                         </div>
                         <canvas id="weeklyChart" height="220"></canvas>
                     </article>
                     <article class="chart-panel">
-                        <div class="chart-heading">
-                            <span>Por periodo</span>
-                            <small>Conclusoes no dia</small>
+                    <div class="chart-heading chart-heading--col">
+                            <span>Por período</span>
+                            <small>Conclusões no dia</small>
                         </div>
                         <canvas id="periodChart" height="220"></canvas>
                     </article>
@@ -95,15 +95,15 @@
 
                 <div class="card task-container">
                     <h2 class="section-title">Adicionar tarefa</h2>
-                    <p class="helper-text">Use frases curtas e objetivas. Ex.: "Ler 3 paginas" ou "Responder 2 emails".</p>
+                    <p class="helper-text">Use frases curtas e objetivas. Ex.: "Ler 3 páginas" ou "Responder 2 e-mails".</p>
                     <input type="text" id="taskInput" placeholder="Digite uma nova tarefa em passos curtos">
                     <div class="inline-fields">
                         <div class="field">
-                            <label for="timeInput">Horario de inicio</label>
+                            <label for="timeInput">Horário de início</label>
                             <input type="text" id="timeInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}" placeholder="08:00">
                         </div>
                         <div class="field">
-                            <label for="deadlineInput">Concluir ate</label>
+                            <label for="deadlineInput">Concluir até</label>
                             <input type="text" id="deadlineInput" maxlength="5" pattern="[0-9]{2}:[0-9]{2}" placeholder="18:00">
                         </div>
                     </div>
@@ -116,7 +116,7 @@
         <section class="column">
             <div class="card">
                 <h2 class="section-title">Tarefas do dia</h2>
-                <p class="helper-text">Conclua, adie ou remova sem perder de vista o que e prioridade.</p>
+                <p class="helper-text">Conclua, adie ou remova sem perder de vista o que é prioridade.</p>
                 <div class="task-list-container">
                     <ul id="taskList"></ul>
                 </div>
@@ -125,7 +125,7 @@
     </main>
 
     <div class="congrats-message" id="congratsMessage">
-        Parabens! Voce completou todas as tarefas do dia!
+        Parabéns! Você completou todas as tarefas do dia!
     </div>
 
     <canvas id="fireworksCanvas"></canvas>
