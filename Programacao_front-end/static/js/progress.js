@@ -215,7 +215,7 @@ class DashboardManager {
             ctx.fill();
 
             ctx.fillStyle = this.colors.muted;
-            ctx.font = '700 11px Inter, sans-serif';
+            ctx.font = '700 8px Inter, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(this.formatShortDate(day.date), x + barWidth / 2, height - 10);
         });
