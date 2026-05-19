@@ -185,7 +185,7 @@ class DashboardManager {
         ctx.textAlign = 'center';
         ctx.fillText(`${day.completionRate}%`, centerX, centerY + 4);
         ctx.fillStyle = this.colors.muted;
-        ctx.font = '700 12px Inter, sans-serif';
+        ctx.font = '700 10px Inter, sans-serif';
         ctx.fillText(`${completed} de ${total} concluidas`, centerX, centerY + 28);
     }
 
@@ -225,13 +225,15 @@ class DashboardManager {
         const { ctx, width, height } = this.setupCanvas(this.periodChart);
         const padding = { top: 26, right: 42, bottom: 18, left: 72 };
         const rowHeight = 42;
-        const maxValue = Math.max(1, ...periods.map(period => period.total));
+        const barWidth = width - padding.left - padding.right;
 
         periods.forEach((period, index) => {
             const y = padding.top + index * rowHeight;
-            const barWidth = width - padding.left - padding.right;
-            const totalWidth = (period.total / maxValue) * barWidth;
-            const completedWidth = (period.completed / maxValue) * barWidth;
+            const total = Number(period.total) || 0;
+            const completed = Number(period.completed) || 0;
+            const safeCompleted = Math.min(Math.max(completed, 0), Math.max(total, 0));
+            const completionRatio = total > 0 ? safeCompleted / total : 0;
+            const completedWidth = completionRatio * barWidth;
 
             ctx.fillStyle = this.colors.ink;
             ctx.font = '800 12px Inter, sans-serif';
@@ -239,19 +241,21 @@ class DashboardManager {
             ctx.fillText(period.label, padding.left - 12, y + 22);
 
             ctx.fillStyle = this.colors.pending;
-            this.roundRect(ctx, padding.left, y, Math.max(totalWidth, 4), 24, 8);
+            this.roundRect(ctx, padding.left, y, Math.max(barWidth, 4), 24, 8);
             ctx.fill();
 
-            ctx.fillStyle = this.colors.completedDark;
-            this.roundRect(ctx, padding.left, y, Math.max(completedWidth, period.completed > 0 ? 4 : 0), 24, 8);
-            ctx.fill();
+            if (safeCompleted > 0) {
+                ctx.fillStyle = this.colors.completedDark;
+                this.roundRect(ctx, padding.left, y, Math.max(completedWidth, 4), 24, 8);
+                ctx.fill();
+            }
 
             ctx.fillStyle = this.colors.muted;
             ctx.font = '700 11px Inter, sans-serif';
             ctx.textAlign = 'right';
 
-            const valueText = period.total > 0
-                ? `${period.completed}/${period.total}`
+            const valueText = total > 0
+                ? `${safeCompleted}/${total}`
                 : '0';
 
             ctx.fillText(valueText, width - 8, y + 17);
