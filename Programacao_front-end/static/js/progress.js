@@ -223,7 +223,7 @@ class DashboardManager {
 
     drawPeriodChart(periods) {
         const { ctx, width, height } = this.setupCanvas(this.periodChart);
-        const padding = { top: 26, right: 22, bottom: 18, left: 72 };
+        const padding = { top: 26, right: 42, bottom: 18, left: 72 };
         const rowHeight = 42;
         const maxValue = Math.max(1, ...periods.map(period => period.total));
 
@@ -248,8 +248,13 @@ class DashboardManager {
 
             ctx.fillStyle = this.colors.muted;
             ctx.font = '700 11px Inter, sans-serif';
-            ctx.textAlign = 'left';
-            ctx.fillText(`${period.completed}/${period.total}`, padding.left + Math.max(totalWidth, 6) + 8, y + 17);
+            ctx.textAlign = 'right';
+
+            const valueText = period.total > 0
+                ? `${period.completed}/${period.total}`
+                : '0';
+
+            ctx.fillText(valueText, width - 8, y + 17);
         });
 
         if (periods.every(period => period.total === 0)) {
